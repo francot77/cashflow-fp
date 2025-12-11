@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+{% block title %}Editar movimiento - Cashflow{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-3">Editar movimiento</h1>
+
+<form method="post" class="card p-3">
+  <div class="mb-3">
+    <label for="amount" class="form-label">Monto</label>
+    <input
+      type="number"
+      step="0.01"
+      class="form-control"
+      id="amount"
+      name="amount"
+      required
+      min="0.01"
+      placeholder="Ej: 15000.00"
+      value="{{ tx['amount'] }}"
+    >
+  </div>
+
+  <div class="mb-3">
+    <label for="date" class="form-label">Fecha</label>
+    <input
+      type="date"
+      class="form-control"
+      id="date"
+      name="date"
+      required
+      value="{{ tx['date'] }}"
+    >
+  </div>
+
+  <div class="mb-3">
+    <label for="category_id" class="form-label">Categoría</label>
+    <select
+      class="form-select"
+      id="category_id"
+      name="category_id"
+      required
+    >
+      <option value="" disabled>Seleccioná una categoría...</option>
+      {% for cat in categories %}
+        <option
+          value="{{ cat['id'] }}"
+          {% if cat['id'] == tx['category_id'] %}selected{% endif %}
+        >
+          {{ cat["name"] }}
+        </option>
+      {% endfor %}
+    </select>
+    <div class="form-text">
+      ¿Te falta alguna? <a href="{{ url_for('views.categories') }}">Gestionar categorías</a>.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="description" class="form-label">Descripción (opcional)</label>
+    <textarea
+      class="form-control"
+      id="description"
+      name="description"
+      rows="2"
+      placeholder="Ej: sueldo, alquiler, supermercado..."
+    >{{ tx['description'] }}</textarea>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label d-block">Tipo</label>
+    <div class="btn-group" role="group" aria-label="Tipo de movimiento">
+      <input
+        type="radio"
+        class="btn-check"
+        name="type"
+        id="type_income"
+        value="income"
+        {% if tx['type'] == 'income' %}checked{% endif %}
+      >
+      <label class="btn btn-outline-success" for="type_income">
+        + Ingreso
+      </label>
+
+      <input
+        type="radio"
+        class="btn-check"
+        name="type"
+        id="type_expense"
+        value="expense"
+        {% if tx['type'] == 'expense' %}checked{% endif %}
+      >
+      <label class="btn btn-outline-danger" for="type_expense">
+        - Egreso
+      </label>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between mt-3">
+    <a href="{{ url_for('views.index') }}" class="btn btn-outline-secondary">
+      Cancelar
+    </a>
+    <button type="submit" class="btn btn-primary">
+      Guardar cambios
+    </button>
+  </div>
+</form>
+{% endblock %}

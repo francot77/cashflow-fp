@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block title %}Resumen general - Cashflow{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-4">Resumen general</h1>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="card border-success">
+      <div class="card-body">
+        <h5 class="card-title text-success">Ingresos totales</h5>
+        <p class="card-text fs-4">
+          + $ {{ income|default(0)|float|round(2) }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card border-danger">
+      <div class="card-body">
+        <h5 class="card-title text-danger">Egresos totales</h5>
+        <p class="card-text fs-4">
+          - $ {{ expense|default(0)|float|round(2) }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    {% set bal = balance|default(0)|float %}
+    <div class="card {% if bal >= 0 %}border-success{% else %}border-danger{% endif %}">
+      <div class="card-body">
+        <h5 class="card-title">Balance total</h5>
+        <p class="card-text fs-4 {% if bal >= 0 %}text-success{% else %}text-danger{% endif %}">
+          {{ "+ $" if bal >= 0 else "- $" }}{{ bal|abs|round(2) }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="text-muted">
+  Estos valores son la suma de <strong>todos</strong> los movimientos registrados por este usuario,
+  sin filtrar por mes o año.
+</p>
+{% endblock %}
