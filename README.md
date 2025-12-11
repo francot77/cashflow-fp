@@ -32,6 +32,7 @@ The UI uses server-rendered templates placed in the `templates/` directory, with
 ---
 
 ## Project Structure
+```
 
 cashflow-fp/
 │
@@ -63,7 +64,7 @@ cashflow-fp/
 
 
 This layout keeps responsibilities separated and prevents any one file from becoming unmanageably large.
-
+```
 ---
 
 ## How to Run the Project
