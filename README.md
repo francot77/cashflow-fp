@@ -70,25 +70,29 @@ This layout keeps responsibilities separated and prevents any one file from beco
 ## How to Run the Project
 
 1. **Clone the repository**
+```
 git clone https://github.com/francot77/cashflow-fp
 cd cashflow-fp
-
+```
 2. **Set up a virtual environment**
+```
 python -m venv venv
 source venv/bin/activate
-
+```
 (On Windows: `venv\Scripts\activate`)
 
 3. **Install dependencies**
+```
 pip install -r requirements.txt
-
+```
 4. **Initialize the database** (if needed)
+```
 python init_db.py
-
+```
 5. **Start the development server**
-export FLASK_APP=app.py
+```
 flask run
-
+```
 Then visit:  
 **http://127.0.0.1:5000**
 
