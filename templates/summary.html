@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
-{% block title %}Resumen general - Cashflow{% endblock %}
+{% block title %}General Summary - Cashflow{% endblock %}
 
 {% block content %}
-<h1 class="h3 mb-4">Resumen general</h1>
+<h1 class="h3 mb-4">General Summary</h1>
 
 <div class="row g-3 mb-4">
   <div class="col-md-4">
     <div class="card border-success">
       <div class="card-body">
-        <h5 class="card-title text-success">Ingresos totales</h5>
+        <h5 class="card-title text-success">Total Income</h5>
         <p class="card-text fs-4">
           + $ {{ income|default(0)|float|round(2) }}
         </p>
@@ -19,7 +19,7 @@
   <div class="col-md-4">
     <div class="card border-danger">
       <div class="card-body">
-        <h5 class="card-title text-danger">Egresos totales</h5>
+        <h5 class="card-title text-danger">Total Expenses</h5>
         <p class="card-text fs-4">
           - $ {{ expense|default(0)|float|round(2) }}
         </p>
@@ -31,7 +31,7 @@
     {% set bal = balance|default(0)|float %}
     <div class="card {% if bal >= 0 %}border-success{% else %}border-danger{% endif %}">
       <div class="card-body">
-        <h5 class="card-title">Balance total</h5>
+        <h5 class="card-title">Total Balance</h5>
         <p class="card-text fs-4 {% if bal >= 0 %}text-success{% else %}text-danger{% endif %}">
           {{ "+ $" if bal >= 0 else "- $" }}{{ bal|abs|round(2) }}
         </p>
@@ -41,7 +41,7 @@
 </div>
 
 <p class="text-muted">
-  Estos valores son la suma de <strong>todos</strong> los movimientos registrados por este usuario,
-  sin filtrar por mes o año.
+  These values are the sum of <strong>all</strong> transactions recorded by this user,
+  without filtering by month or year.
 </p>
 {% endblock %}

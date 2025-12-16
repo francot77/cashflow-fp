@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en"></html>
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}Cashflow{% endblock %}</title>
@@ -25,7 +25,7 @@
           <a class="nav-link" href="{{ url_for('views.index') }}">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('views.add') }}">Agregar</a>
+          <a class="nav-link" href="{{ url_for('views.add') }}">Add</a>
         </li>
         <li class="nav-item">
          <a class="nav-link" href="{{ url_for('views.summary') }}">History</a>
@@ -34,11 +34,11 @@
       <ul class="navbar-nav">
         {% if session.get("user_id") %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('auth.logout') }}">Salir</a>
+            <a class="nav-link" href="{{ url_for('auth.logout') }}">Log out</a>
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('auth.login') }}">Entrar</a>
+            <a class="nav-link" href="{{ url_for('auth.login') }}">Log in</a>
           </li>
         {% endif %}
       </ul>

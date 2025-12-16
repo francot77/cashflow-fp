@@ -1,24 +1,24 @@
 {% extends "layout.html" %}
-{% block title %}Categorías - Cashflow{% endblock %}
+{% block title %}Categories - Cashflow{% endblock %}
 
 {% block content %}
-<h1 class="h3 mb-4">Categorías</h1>
+<h1 class="h3 mb-4">Categories</h1>
 
 <div class="row">
   <div class="col-md-6 mb-4">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Agregar nueva categoría</h5>
+        <h5 class="card-title">Add new category</h5>
         <form method="post" class="d-flex mt-3">
           <input type="hidden" name="action" value="add">
           <input
             type="text"
             name="name"
             class="form-control me-2"
-            placeholder="Ej: Sueldo, Alquiler, Comida..."
+            placeholder="E.g.: Salary, Rent, Food..."
             required
           >
-          <button type="submit" class="btn btn-primary">Agregar</button>
+          <button type="submit" class="btn btn-primary">Add</button>
         </form>
       </div>
     </div>
@@ -27,7 +27,7 @@
   <div class="col-md-6 mb-4">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Categorías existentes</h5>
+        <h5 class="card-title">Existing categories</h5>
 
         {% if categories %}
           <ul class="list-group mt-3">
@@ -40,16 +40,16 @@
                   <button
                     type="submit"
                     class="btn btn-sm btn-outline-danger"
-                    onclick="return confirm('¿Eliminar categoría?');"
+                    onclick="return confirm('Delete category?');"
                   >
-                    Eliminar
+                    Delete
                   </button>
                 </form>
               </li>
             {% endfor %}
           </ul>
         {% else %}
-          <p class="text-muted mt-3">Todavía no tenés categorías.</p>
+          <p class="text-muted mt-3">You don't have any categories yet.</p>
         {% endif %}
       </div>
     </div>

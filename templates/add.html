@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
-{% block title %}Agregar movimiento - Cashflow{% endblock %}
+{% block title %}Add transaction - Cashflow{% endblock %}
 
 {% block content %}
-<h1 class="h3 mb-3">Agregar movimiento</h1>
+<h1 class="h3 mb-3">Add transaction</h1>
 
 <form method="post" class="card p-3">
   <div class="mb-3">
-    <label for="amount" class="form-label">Monto</label>
+    <label for="amount" class="form-label">Amount</label>
     <input
       type="number"
       step="0.01"
@@ -15,12 +15,12 @@
       name="amount"
       required
       min="0.01"
-      placeholder="Ej: 15000.00"
+      placeholder="Eg: 15000.00"
     >
   </div>
 
   <div class="mb-3">
-    <label for="date" class="form-label">Fecha</label>
+    <label for="date" class="form-label">Date</label>
     <input
       type="date"
       class="form-control"
@@ -28,39 +28,46 @@
       name="date"
       required
     >
+    <div class="mt-2">
+      <div class="btn-group" role="group" aria-label="Quick date shortcuts">
+        <button type="button" class="btn btn-sm btn-outline-primary" id="btn-today">Today</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="btn-yesterday">Yesterday</button>
+      </div>
+    </div>
   </div>
 
+
   <div class="mb-3">
-    <label for="category_id" class="form-label">Categoría</label>
+    <label for="category_id" class="form-label">Category</label>
     <select
       class="form-select"
       id="category_id"
       name="category_id"
       required
     >
-      <option value="" selected disabled>Seleccioná una categoría...</option>
+      <option value="" selected disabled>Select a category...</option>
       {% for cat in categories %}
         <option value="{{ cat['id'] }}">{{ cat["name"] }}</option>
       {% endfor %}
     </select>
     <div class="form-text">
-      ¿Te falta alguna? <a href="{{ url_for('views.categories') }}">Gestionar categorías</a>.
+      Missing one? <a href="{{ url_for('views.categories') }}">Manage categories</a>.
     </div>
   </div>
 
   <div class="mb-3">
-    <label for="description" class="form-label">Descripción (opcional)</label>
+    <label for="description" class="form-label">Description (optional)</label>
     <textarea
       class="form-control"
       id="description"
       name="description"
       rows="2"
-      placeholder="Ej: sueldo, alquiler, supermercado..."
+      placeholder="Eg: salary, rent, groceries..."
     ></textarea>
   </div>
 
   <div class="d-flex justify-content-between mt-3">
-    <a href="{{ url_for('views.index') }}" class="btn btn-outline-secondary">Cancelar</a>
+    <a href="{{ url_for('views.index') }}" class="btn btn-outline-secondary">Cancel</a>
     <div>
       <button
         type="submit"
@@ -68,7 +75,7 @@
         value="income"
         class="btn btn-success me-2"
       >
-        + Ingreso
+        + Income
       </button>
       <button
         type="submit"
@@ -76,9 +83,36 @@
         value="expense"
         class="btn btn-danger"
       >
-        - Egreso
+        - Expense
       </button>
     </div>
   </div>
 </form>
+
+
+<script>
+  (function(){
+    const el = document.getElementById('date');
+    if (!el) return;
+
+    const toYMD = d => {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    const todayDate = new Date();
+    const today = toYMD(todayDate);
+    const yesterday = toYMD(new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() - 1));
+
+    //if (!el.value) el.value = today;
+
+    const btnToday = document.getElementById('btn-today');
+    const btnYesterday = document.getElementById('btn-yesterday');
+
+    if (btnToday) btnToday.addEventListener('click', () => el.value = today);
+    if (btnYesterday) btnYesterday.addEventListener('click', () => el.value = yesterday);
+  })();
+</script>
 {% endblock %}

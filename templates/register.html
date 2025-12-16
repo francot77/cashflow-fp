@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
-{% block title %}Registro - Cashflow{% endblock %}
+{% block title %}Register - Cashflow{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-md-4">
-    <h1 class="h3 mb-3 text-center">Crear cuenta</h1>
+    <h1 class="h3 mb-3 text-center">Create account</h1>
     <form method="post" class="card p-3">
       <div class="mb-3">
-        <label for="username" class="form-label">Usuario</label>
+        <label for="username" class="form-label">Username</label>
         <input
           type="text"
           class="form-control"
@@ -18,7 +18,7 @@
         >
       </div>
       <div class="mb-3">
-        <label for="password" class="form-label">Contraseña</label>
+        <label for="password" class="form-label">Password</label>
         <input
           type="password"
           class="form-control"
@@ -28,7 +28,7 @@
         >
       </div>
       <div class="mb-3">
-        <label for="confirmation" class="form-label">Repetir contraseña</label>
+        <label for="confirmation" class="form-label">Confirm password</label>
         <input
           type="password"
           class="form-control"
@@ -37,11 +37,11 @@
           required
         >
       </div>
-      <button type="submit" class="btn btn-success w-100">Registrarse</button>
+      <button type="submit" class="btn btn-success w-100">Register</button>
     </form>
     <p class="mt-3 text-center">
-      ¿Ya tenés cuenta?
-      <a href="{{ url_for('auth.login') }}">Inicia sesión</a>
+      Already have an account?
+      <a href="{{ url_for('auth.login') }}">Log in</a>
     </p>
   </div>
 </div>

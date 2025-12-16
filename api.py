@@ -23,7 +23,7 @@ def get_user_id_by_username(username: str):
 
 
 def _decode_token(token: str, verify_exp=True):
-    """Decodifica y valida un JWT token"""
+    
     secret = current_app.config.get("SECRET_KEY", None)
     if not secret:
         raise RuntimeError("SECRET_KEY no está configurada en app.config")
@@ -34,7 +34,7 @@ def _decode_token(token: str, verify_exp=True):
 
 
 def _generate_token(user_id: int, username: str, expires_in_hours=24):
-    """Genera un nuevo JWT token"""
+   
     now_ts = int(time())
     exp_ts = now_ts + (expires_in_hours * 3600)
     
@@ -54,7 +54,7 @@ def _generate_token(user_id: int, username: str, expires_in_hours=24):
 
 
 def get_user_id_from_request():
-    """Obtiene user_id desde Authorization header o parámetros (legacy)"""
+    
     auth = request.headers.get("Authorization", "")
     if auth:
         parts = auth.split()
@@ -63,7 +63,7 @@ def get_user_id_from_request():
             try:
                 payload = _decode_token(token)
                 user_id_str = payload.get("sub")
-                # Convertir de string a int
+                
                 return int(user_id_str) if user_id_str else None
             except jwt.ExpiredSignatureError:
                 return None
@@ -72,13 +72,13 @@ def get_user_id_from_request():
             except (ValueError, TypeError):
                 return None
    
-    # Fallback para compatibilidad con requests sin token
+    
     username = request.args.get("username") or (request.json and request.json.get("username"))
     return get_user_id_by_username(username)
 
 
 def token_required(f):
-    """Decorator que requiere un token JWT válido"""
+    """Decorator """
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.headers.get("Authorization", "")
@@ -112,7 +112,7 @@ def token_required(f):
 # ------------------------------------------------------------------
 @api_bp.route("/auth/login", methods=["POST"])
 def api_login():
-    """Login endpoint - retorna JWT token"""
+    
     data = request.get_json(silent=True) or {}
     username = (data.get("username") or "").strip()
     password = data.get("password") or ""
@@ -135,13 +135,13 @@ def api_login():
     user_id = row["id"]
     
     try:
-        # Token válido por 24 horas (puedes ajustar este valor)
+        # Valid for 24 hours
         token, exp_ts = _generate_token(user_id, username, expires_in_hours=24)
         
         return jsonify({
             "token": token,
             "expires_at": datetime.fromtimestamp(exp_ts).isoformat(),
-            "expires_in": exp_ts - int(time()),  # segundos hasta expiración
+            "expires_in": exp_ts - int(time()),  
             "user": {
                 "id": user_id,
                 "username": username
@@ -154,13 +154,13 @@ def api_login():
 @api_bp.route("/auth/refresh", methods=["POST"])
 @token_required
 def api_refresh_token():
-    """Refresh token - genera un nuevo token antes de que expire el actual"""
+    
     try:
-        # Usar la info del request (agregada por @token_required)
+        
         user_id = request.user_id
         username = request.username
         
-        # Generar nuevo token
+        
         token, exp_ts = _generate_token(user_id, username, expires_in_hours=24)
         
         return jsonify({
@@ -178,10 +178,10 @@ def api_refresh_token():
 
 @api_bp.route("/auth/validate", methods=["POST"])
 def api_validate_token():
-    """Valida un token JWT sin requerir autenticación"""
+   
     data = request.get_json(silent=True) or {}
     
-    # Intentar obtener el token de varias fuentes
+   
     token = None
     auth = request.headers.get("Authorization", "")
     if auth:
@@ -206,9 +206,9 @@ def api_validate_token():
         if isinstance(exp, (int, float)):
             expires_at = datetime.fromtimestamp(exp).isoformat()
         
-        # Verificar si el usuario aún existe
+        
         db = get_db()
-        user_id = int(payload.get("sub"))  # Convertir a int
+        user_id = int(payload.get("sub"))
         user_exists = db.execute(
             "SELECT 1 FROM users WHERE id = ?",
             (user_id,)
@@ -248,11 +248,7 @@ def api_validate_token():
 @api_bp.route("/auth/logout", methods=["POST"])
 @token_required
 def api_logout():
-    """
-    Logout endpoint - en JWT stateless no hay mucho que hacer server-side.
-    El cliente debe eliminar el token.
-    Si quieres invalidar tokens, necesitarías una blacklist en DB.
-    """
+    
     return jsonify({
         "status": "ok",
         "message": "Sesión cerrada. Elimine el token del cliente."
@@ -264,7 +260,7 @@ def api_logout():
 # ------------------------------------------------------------------
 @api_bp.route("/categories")
 def api_categories():
-    """Lista categorías del usuario - soporta token y username (legacy)"""
+    
     user_id = get_user_id_from_request()
     if not user_id:
         return jsonify({"error": "Autenticación requerida"}), 401
@@ -281,7 +277,7 @@ def api_categories():
 
 @api_bp.route("/summary")
 def api_summary():
-    """Resumen de transacciones del usuario"""
+    
     user_id = get_user_id_from_request()
     if not user_id:
         return jsonify({"error": "Autenticación requerida"}), 401
@@ -330,7 +326,7 @@ def api_summary():
 
 @api_bp.route("/analytics")
 def api_analytics():
-    """Analytics con filtros por rango de fechas"""
+    
     user_id = get_user_id_from_request()
     if not user_id:
         return jsonify({"error": "Autenticación requerida"}), 401
@@ -432,7 +428,7 @@ def api_analytics():
 
 @api_bp.route("/transactions", methods=["POST"])
 def api_create_transaction():
-    """Crea una nueva transacción"""
+    
     data = request.get_json(silent=True) or {}
 
     user_id = get_user_id_from_request()

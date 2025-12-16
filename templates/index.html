@@ -3,12 +3,12 @@
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
-  <h1 class="h3 mb-0">Resumen {{ month }}/{{ year }}</h1>
+  <h1 class="h3 mb-0">Summary {{ month }}/{{ year }}</h1>
   <form class="d-flex" method="get" action="{{ url_for('views.index') }}">
-    <input class="form-control me-2" type="number" name="month" min="1" max="12" placeholder="Mes" value="{{ month }}">
-    <input class="form-control me-2" type="number" name="year" min="2000" max="2100" placeholder="Año"
+    <input class="form-control me-2" type="number" name="month" min="1" max="12" placeholder="Month" value="{{ month }}">
+    <input class="form-control me-2" type="number" name="year" min="2000" max="2100" placeholder="Year"
       value="{{ year }}">
-    <button class="btn btn-outline-primary" type="submit">Cambiar</button>
+    <button class="btn btn-outline-primary" type="submit">Change</button>
   </form>
 </div>
 
@@ -16,7 +16,7 @@
   <div class="col-md-4 mb-3">
     <div class="card border-success">
       <div class="card-body">
-        <h5 class="card-title text-success">Ingresos</h5>
+        <h5 class="card-title text-success">Income</h5>
         <p class="card-text fs-4">+ $ {{ "%.2f"|format(total_income) }}</p>
       </div>
     </div>
@@ -24,7 +24,7 @@
   <div class="col-md-4 mb-3">
     <div class="card border-danger">
       <div class="card-body">
-        <h5 class="card-title text-danger">Egresos</h5>
+        <h5 class="card-title text-danger">Expenses</h5>
         <p class="card-text fs-4">- $ {{ "%.2f"|format(total_expense) }}</p>
       </div>
     </div>
@@ -43,8 +43,8 @@
 </div>
 
 <div class="d-flex justify-content-between align-items-center mb-2">
-  <h2 class="h5 mb-0">Movimientos del mes</h2>
-  <a href="{{ url_for('views.add') }}" class="btn btn-primary btn-sm">+ Nuevo movimiento</a>
+  <h2 class="h5 mb-0">Transactions this month</h2>
+  <a href="{{ url_for('views.add') }}" class="btn btn-primary btn-sm">+ New transaction</a>
 </div>
 
 {% if rows %}
@@ -52,11 +52,11 @@
   <table class="table table-striped table-sm align-middle mt-2">
     <thead>
       <tr>
-        <th>Fecha</th>
-        <th>Tipo</th>
-        <th>Descripción</th>
-        <th>Categoria</th>
-        <th class="text-end">Monto</th>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th class="text-end">Amount</th>
       </tr>
     </thead>
     <tbody>
@@ -65,9 +65,9 @@
         <td>{{ row["date"] }}</td>
         <td>
           {% if row["type"] == "income" %}
-          <span class="badge bg-success">Ingreso</span>
+          <span class="badge bg-success">Income</span>
           {% else %}
-          <span class="badge bg-danger">Egreso</span>
+          <span class="badge bg-danger">Expense</span>
           {% endif %}
         </td>
         <td>{{ row["description"] or "-" }}</td>
@@ -82,14 +82,14 @@
         <td>
 
           <a href="{{ url_for('views.edit_transaction', tx_id=row.id) }}" class="btn btn-sm btn-outline-primary">
-            Editar
+            Edit
           </a>
 
 
           <form action="{{ url_for('views.delete_transaction', tx_id=row.id) }}" method="post" style="display:inline"
-            onsubmit="return confirm('¿Seguro que querés borrar este movimiento?');">
+            onsubmit="return confirm('Are you sure you want to delete this transaction?');">
             <button type="submit" class="btn btn-sm btn-outline-danger">
-              Borrar
+              Delete
             </button>
           </form>
         </td>
@@ -99,6 +99,6 @@
   </table>
 </div>
 {% else %}
-<p class="text-muted mt-3">No hay movimientos registrados para este mes.</p>
+<p class="text-muted mt-3">No transactions registered for this month.</p>
 {% endif %}
 {% endblock %}
